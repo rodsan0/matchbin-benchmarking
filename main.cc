@@ -4,6 +4,8 @@
 #include "tools/MatchBin.h"
 #include "tools/matchbin_utils.h"
 
+size_t ITERATIONS = 10000;
+
 int main() {
     // initialize MatchBin
 
@@ -26,5 +28,30 @@ int main() {
     bin.Put(7, 2213);
     bin.Put(8, 2);
     bin.Put(9, 653);
+
+    /* benchmark! */
+    size_t result = 0;
+
+    // start hig-res timer
+    auto start_time = std::chrono::high_resolution_clock::now();
+
+    for (size_t i; i < ITERATIONS; i++) {
+        // get values
+        emp::vector<int> matches = bin.GetVals(bin.Match(i));
+
+        // do something with result, so that it is not optimized away
+        result += matches.size();
+    }
+
+    // end timer
+    auto end_time = std::chrono::high_resolution_clock::now();
+
+    // print final result, just in case the compiler feels like optimizing it away
+    std::cout << result << std::endl;
+
+
+    // calculate and print timing
+    auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(end_time - start_time).count();
+    std::cout << duration << std::endl;
 
 }

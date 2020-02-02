@@ -68,6 +68,6 @@ int main(int argc, char *argv[]) {
 
     // calculate and print timing
     auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(end_time - start_time).count();
-    std::cout << "duration: " << duration << std::endl;
+    std::cout << duration << std::endl;
 
 }
